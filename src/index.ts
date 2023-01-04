@@ -5,14 +5,14 @@ import {buildSchema} from "type-graphql";
 import { TaskResolver } from "./resolvers/task";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { createConnection } from "typeorm";
-import { TaskEntity } from "./entities/Task";
+import { Task } from "./entities/Task";
 
 const main = async () => {
 
     const conn = await createConnection({
         type: "postgres",
         database: "todolist-graphql-db",
-        entities: [TaskEntity],
+        entities: [Task],
         logging: true,
         synchronize: true,
         username: "postgres",
