@@ -1,7 +1,8 @@
-import { Field, Int } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
+@ObjectType()
 export class Task extends BaseEntity {
     @PrimaryGeneratedColumn()
     @Field(()=>Int)
@@ -21,5 +22,5 @@ export class Task extends BaseEntity {
 
     @Column()
     @Field(()=>Boolean)
-    isCompleted: boolean;
+    isComplete: boolean;
 }
