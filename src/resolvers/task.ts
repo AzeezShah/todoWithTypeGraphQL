@@ -1,9 +1,9 @@
 import { Task } from "../entities/Task";
-import {Arg, Int, Mutation, Query, Resolver} from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()
-export class TaskResolver{
-    @Query(()=>String)
+export class TaskResolver {
+    @Query(() => String)
     hello(): string {
         return "hello world??"
     }
@@ -13,14 +13,16 @@ export class TaskResolver{
         return Task.find({});
     }
 
-    @Query(() => Task, {nullable: true})
+    @Query(() => Task, { nullable: true })
     task(
         @Arg("id", () => Int)
         id: number
     ): Promise<Task | null> {
-        return Task.findOne({ where:{
-            id
-        } })
+        return Task.findOne({
+            where: {
+                id
+            }
+        })
     }
 
     @Mutation(() => Task)
@@ -28,8 +30,21 @@ export class TaskResolver{
         @Arg("title", () => String)
         title: string
     ): Promise<Task> {
-        return Task.create({title, isComplete: false}).save();
-        // return Task;
+        return Task.create({ title, isComplete: false }).save();
+    }
+
+    @Mutation(() => Boolean)
+    deleteTask(
+        @Arg("id", () => Int)
+        id: number
+    ): boolean {
+
+        try {
+            Task.delete({ id })
+            return true;
+        } catch {
+            return false;
+        }
     }
 }
 
