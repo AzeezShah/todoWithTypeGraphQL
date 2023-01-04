@@ -3,9 +3,23 @@ import express, { Express } from "express";
 import {ApolloServer} from "apollo-server-express";
 import {buildSchema} from "type-graphql";
 import { TaskResolver } from "./resolvers/task";
-import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core"
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { createConnection } from "typeorm";
+import { TaskEntity } from "./entities/Task";
 
 const main = async () => {
+
+    const conn = await createConnection({
+        type: "postgres",
+        database: "todolist-graphql-db",
+        entities: [TaskEntity],
+        logging: true,
+        synchronize: true,
+        username: "postgres",
+        password: "bismillah",
+        port: 5431
+    });
+
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: [TaskResolver],
